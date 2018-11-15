@@ -217,7 +217,7 @@
   height — параметр, который обозначает высоту игровой области. Нужно, чтобы маг появлялся на высоте две трети игрового поля от земли.
   */
   function getWizardY (height) {
-    return (height / 3) - (getWizardHeight / 2);
+    return (height / 3) - (getWizardHeight(wizardWidth) / 2);
   }
 
 </script>
