@@ -209,7 +209,7 @@
   width — параметр, который обозначает ширину игровой области. Центр фигурки мага надо было расположить посередине игрового поля.
   */
   function getWizardX (width) {
-    return (width / 2) - (wizardWidth / 2);
+    return (width - wizardWidth) / 2;
   }
 
   /*
@@ -217,7 +217,7 @@
   height — параметр, который обозначает высоту игровой области. Нужно, чтобы маг появлялся на высоте две трети игрового поля от земли.
   */
   function getWizardY (height) {
-    return height / 3;
+    return (height / 3) - (getWizardHeight / 2);
   }
 
 </script>
