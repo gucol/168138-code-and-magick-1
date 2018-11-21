@@ -6,13 +6,13 @@ var CLOUD_X = 100; // отступ облака горизонтальный
 var CLOUD_Y = 10; // отступ облака вертикальный
 var GAP = 10; // отступ
 var SIDE_GAP = 40;
-var BAR_WIDHT = 40; //ширина колонки
+var BAR_WIDHT = 40; // ширина колонки
 var BAR_GAP = 50; // отступ между колонками
 var TEXT_HEIGHT = 20; // высота текста
-var barHeight = CLOUD_HEIGHT - (CLOUD_Y * 2) - (TEXT_HEIGHT * 4) - (GAP * 2); //высота колонки
+var barHeight = CLOUD_HEIGHT - (CLOUD_Y * 2) - (TEXT_HEIGHT * 4) - (GAP * 2); // высота колонки
 
 /* renderCloud рисует силуеты облака и тени */
-var renderCloud = function(ctx, x, y, color) {
+var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
@@ -21,7 +21,7 @@ var renderCloud = function(ctx, x, y, color) {
 Если передать пустой массив в эту функцию, она будет работать неправильно (возвращает undefined).
 Чтобы функция корректно работала с любыми массивами, её нужно видоизменить,
 но пока не понимаю как. */
-var getMaxElement = function(arr) {
+var getMaxElement = function (arr) {
   var maxElement = arr[0];
 
   for (var i = 1; i < arr.length; i++) {
@@ -33,13 +33,13 @@ var getMaxElement = function(arr) {
 };
 
 
-window.renderStatistics = function(ctx, players, times) {
+window.renderStatistics = function (ctx, players, times) {
 
-/* Облако */
+  /* Облако */
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
 
-/* Победный текст */
+  /* Победный текст */
   ctx.fillStyle = '#000';
   ctx.font = '16px PT Mono';
   ctx.textBaseline = 'hanging';
@@ -48,7 +48,7 @@ window.renderStatistics = function(ctx, players, times) {
 
   var maxTime = getMaxElement(times);
 
-/*Гистограмма */
+  /* Гистограмма */
   ctx.fillStyle = '#000';
 
   for (var i = 0; i < players.length; i++) {
@@ -67,4 +67,4 @@ window.renderStatistics = function(ctx, players, times) {
     /* Отрисовываем шкалу: */
     ctx.fillRect(CLOUD_X + SIDE_GAP + ((BAR_WIDHT + BAR_GAP) * i), CLOUD_HEIGHT - CLOUD_Y - TEXT_HEIGHT, BAR_WIDHT, -(barHeight * times[i]) / maxTime);
   }
-}
+};
