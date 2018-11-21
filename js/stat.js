@@ -34,6 +34,9 @@ var renderCloud = function(ctx, x, y, color) {
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 
+/*Если передать пустой массив в эту функцию, она будет работать неправильно (возвращает undefined).
+Чтобы функция корректно работала с любыми массивами, её нужно видоизменить,
+но пока не понимаю как. */
 var getMaxElement = function(arr) {
   var maxElement = arr[0];
 
@@ -60,13 +63,15 @@ window.renderStatistics = function(ctx, players, times) {
   ctx.fillText('Список результатов:', CLOUD_X + GAP, 30 + TEXT_HEIGHT);
 /*30 — отступ от верхнего края до строки. Убрать эти магические числа!*/
 
+var maxTime = getMaxElement(times);
+
 /*гистограмма новая */
   ctx.fillStyle = '#000';
 
 
   for (var i = 0; i < players.length; i++) {
     ctx.fillText(players[i], CLOUD_X + (GAP *2) + ((BAR_WIDHT + BAR_GAP) * i), CLOUD_HEIGHT - CLOUD_Y * 2);
-    ctx.fillRect(CLOUD_X + (GAP *2) + ((BAR_WIDHT + BAR_GAP) * i), CLOUD_HEIGHT - CLOUD_Y - TEXT_HEIGHT, BAR_WIDHT, -barHeight);
+    ctx.fillRect(CLOUD_X + (GAP *2) + ((BAR_WIDHT + BAR_GAP) * i), CLOUD_HEIGHT - CLOUD_Y - TEXT_HEIGHT, BAR_WIDHT, -(barHeight * times[i]) / maxTime);
   }
 /*
   var playerIndex = 0;
