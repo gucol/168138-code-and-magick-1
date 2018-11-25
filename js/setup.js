@@ -79,14 +79,27 @@ var surnames = [
 Цвет мантии coatColor задайте как цвет заливки fill в стилях элемента .wizard-coat;
 Цвет глаз eyesColor задайте как цвет заливки fill в стилях элемента .wizard-eyes.
 */
-
+//место, в которое добавляем похожих персонажей
+var similarListElement = document.querySelector('.setup-similar-list');
+//шаблон #similar-wizard-template 
+var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 /*
 Отрисуйте сгенерированные DOM-элементы в блок .setup-similar-list. 
-Для вставки элементов используйте DocumentFragment.
+!!! Для вставки элементов используйте DocumentFragment.
 */
-
+for (var i = 0; i < 4; i++) {
+  var wizardElement = similarWizardTemplate.cloneNode(true);
+  wizardElement.querySelector('.setup-similar-label').textContent = names[i] + ' ' + surnames[i];
+  wizardElement.querySelector('.wizard-coat').style.fill = coatColors[i];
+  wizardElement.querySelector('.wizard-eyes').style.fill = eyesColors[i];
+  similarListElement.appendChild(wizardElement);
+}
 /*
 Покажите блок .setup-similar, удалив у него CSS-класс hidden.
 */
 document.querySelector('.setup-similar').classList.remove('hidden');
 
+/*
+Не забыть:
+1. Вставить элементы с помощью DocumentFragment в отрисовке элементов в блок .setup-similar-list
+*/
