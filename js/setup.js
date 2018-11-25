@@ -9,8 +9,7 @@
 'use strict';
 
 // Покажите блок .setup, убрав в JS-коде у него класс .hidden.
-var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
+document.querySelector('.setup').classList.remove('hidden');
 
 /*
 Создайте массив, состоящий из 4 сгенерированных JS объектов, которые будут описывать 
@@ -89,5 +88,5 @@ var surnames = [
 /*
 Покажите блок .setup-similar, удалив у него CSS-класс hidden.
 */
-
+document.querySelector('.setup-similar').classList.remove('hidden');
 
