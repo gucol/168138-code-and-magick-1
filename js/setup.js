@@ -77,13 +77,18 @@ var similarListElement = document.querySelector('.setup-similar-list');
 // Находим шаблон #similar-wizard-template 
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
-// Отрисовываем сгенерированные DOM-элементы в блок .setup-similar-list. Для вставляем элементы используйте DocumentFragment.
-for (var i = 0; i < 4; i++) {
+// Отрисовываем сгенерированные DOM-элементы в блок .setup-similar-list. Вставляем элементы, используя DocumentFragment:
+var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
-
-  similarListElement.appendChild(wizardElement);
+  return wizardElement;
 }
 
+var fragment = document.createDocumentFragment();
+ for (var j = 0; j < wizards.length; j++) {
+  fragment.appendChild(renderWizard(wizards[j]));
+}
+
+similarListElement.appendChild(fragment);
