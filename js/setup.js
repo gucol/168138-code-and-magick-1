@@ -1,31 +1,9 @@
-/*
-Мои шаги:
-создать вспомогательные массивы
-создать перебором 4 объекта в массив
-привязать объекты к шаблону
-показать всё, что скрыто
-*/
-
 'use strict';
 
-// Покажите блок .setup, убрав в JS-коде у него класс .hidden.
+// Показываем блок .setup
 document.querySelector('.setup').classList.remove('hidden');
-
-/*
-Создайте массив, состоящий из 4 сгенерированных JS объектов, которые будут описывать 
-похожих персонажей. Объекты должны содержать следующие поля:
-
-name, строка — случайно сгенерированное имя персонажа. 
-Имя генерируется из массивов имен и фамилий: нужно случайным образом выбрать 
-из массива имен имя, а из массива фамилий фамилию и сложить их. При желании 
-имя и фамилию можно в случайном порядке менять местами:)
-(Массивы имен и фамилий ниже)
-
-coatColor, строка — случайный цвет мантии на выбор из следующих:
-
-eyesColor, строка — случайный цвет глаз персонажа на выбор из следующих:
-black, red blue yellow, green
-*/
+// Показывам блок .setup-similar
+document.querySelector('.setup-similar').classList.remove('hidden');
 
 // Массив цветов для coatColor:
 var coatColors = [
@@ -70,36 +48,42 @@ var surnames = [
 'Ирвинг'
 ];
 
-/*
-На основе данных, созданных в предыдущем пункте и шаблона 
-#similar-wizard-template создайте DOM-элементы, 
-соответствующие случайно сгенерированным волшебникам и заполните их данными из массива:
+// Функция, возвращающая случайный элемент массива:
+var randomIndexReturn = function(array) {
+	var randomIndex = Math.floor(Math.random() * array.length);
+	return array[randomIndex];
+}
 
-Имя персонажа name запишите как текст в блок .setup-similar-label;
-Цвет мантии coatColor задайте как цвет заливки fill в стилях элемента .wizard-coat;
-Цвет глаз eyesColor задайте как цвет заливки fill в стилях элемента .wizard-eyes.
-*/
-//место, в которое добавляем похожих персонажей
+// Функция, собирающая случайный комплект свойств из объявленных выше массивов:
+var madeWizard = function () {
+	var wizard = {
+		name: randomIndexReturn(names) + ' ' + randomIndexReturn(surnames),
+		coatColor: randomIndexReturn(coatColors),
+		eyesColor: randomIndexReturn(eyesColors)
+	}
+	return wizard;
+}
+
+// Создание массива из четырёх случайных волшебников:
+var wizards = [];
+
+for (var i = 0; i < 4; i++) {
+	wizards.push(madeWizard());
+}
+
+// Место, в которое добавляем похожих персонажей:
 var similarListElement = document.querySelector('.setup-similar-list');
-//шаблон #similar-wizard-template 
+
+// Находим шаблон #similar-wizard-template 
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-/*
-Отрисуйте сгенерированные DOM-элементы в блок .setup-similar-list. 
-!!! Для вставки элементов используйте DocumentFragment.
-*/
+
+// Отрисовываем сгенерированные DOM-элементы в блок .setup-similar-list. Для вставляем элементы используйте DocumentFragment.
 for (var i = 0; i < 4; i++) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
-  wizardElement.querySelector('.setup-similar-label').textContent = names[i] + ' ' + surnames[i];
-  wizardElement.querySelector('.wizard-coat').style.fill = coatColors[i];
-  wizardElement.querySelector('.wizard-eyes').style.fill = eyesColors[i];
+  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
+  wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+
   similarListElement.appendChild(wizardElement);
 }
-/*
-Покажите блок .setup-similar, удалив у него CSS-класс hidden.
-*/
-document.querySelector('.setup-similar').classList.remove('hidden');
 
-/*
-Не забыть:
-1. Вставить элементы с помощью DocumentFragment в отрисовке элементов в блок .setup-similar-list
-*/
