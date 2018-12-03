@@ -1,14 +1,17 @@
 'use strict';
 
-// #12 Учебный проект: нас орда
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
-// Показываем блок .setup
-document.querySelector('.setup').classList.remove('hidden');
-// Показывам блок .setup-similar
-document.querySelector('.setup-similar').classList.remove('hidden');
+var setup = document.querySelector('.setup');
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = setup.querySelector('.setup-close');
+var wizardCoat = document.querySelector('.wizard-coat');
+var wizardEyes = document.querySelector('.wizard-eyes');
+var wizardFireball = document.querySelector('.setup-fireball-wrap');
 
 // Массив цветов для coatColor:
-var coatColors = [
+var COAT_COLORS = [
   'rgb(101, 137, 164)',
   'rgb(241, 43, 107)',
   'rgb(146, 100, 161)',
@@ -18,7 +21,7 @@ var coatColors = [
 ];
 
 // Массив цветов для eyesColor:
-var eyesColors = [
+var EYES_COLORS = [
   'black',
   'red',
   'blue',
@@ -26,8 +29,17 @@ var eyesColors = [
   'green'
 ];
 
+// Массив цветов для фаерболов:
+var FIREBALL_COLORS = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
+
 // Массив имён:
-var names = [
+var NAMES = [
   'Иван',
   'Хуан Себастьян',
   'Мария',
@@ -39,7 +51,7 @@ var names = [
 ];
 
 // Массив фамилий:
-var surnames = [
+var SURNAMES = [
   'да Марья',
   'Верон',
   'Мирабелла',
@@ -50,6 +62,13 @@ var surnames = [
   'Ирвинг'
 ];
 
+// #12 Учебный проект: нас орда
+
+// Показываем блок .setup
+setup.classList.remove('hidden');
+// Показывам блок .setup-similar
+document.querySelector('.setup-similar').classList.remove('hidden');
+
 // Функция, возвращающая случайный элемент массива:
 var randomIndexReturn = function (array) {
   var randomIndex = Math.floor(Math.random() * array.length);
@@ -59,9 +78,9 @@ var randomIndexReturn = function (array) {
 // Функция, собирающая случайный комплект свойств из объявленных выше массивов:
 var madeWizard = function () {
   var wizard = {
-    name: randomIndexReturn(names) + ' ' + randomIndexReturn(surnames),
-    coatColor: randomIndexReturn(coatColors),
-    eyesColor: randomIndexReturn(eyesColors)
+    name: randomIndexReturn(NAMES) + ' ' + randomIndexReturn(SURNAMES),
+    coatColor: randomIndexReturn(COAT_COLORS),
+    eyesColor: randomIndexReturn(EYES_COLORS)
   };
   return wizard;
 };
@@ -97,51 +116,46 @@ similarListElement.appendChild(fragment);
 
 // #15 Учебный проект: одеть Надежду
 // 1. Открытие/закрытие окна настройки персонажа
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
-var setup = document.querySelector('.setup');
-var setupOpen = document.querySelector('.setup-open');
-var setupClose = setup.querySelector('.setup-close');
 
-var onPopupEscPress = function(evt) {
+var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     closePopup();
   }
 };
 
 // Функция закрытия попапа:
-var closePopup = function() {
+var closePopup = function () {
   setup.classList.add('hidden');
-}
+  document.removeEventListener('keydown', onPopupEscPress);
+};
 
 // Функция открытия попапа:
-var openPopup = function() {
+var openPopup = function () {
   setup.classList.remove('hidden');
 
-  /* Когда окно настройки персонажа открыто, нажатие на клавишу ESC должно закрывать диалог. 
-  Обработчик закрытия окна по ESC стоит добавлять только тогда, когда окно появляется на странице. */
-  document.addEventListener('keydown', function(evt) {
+  // Обработчик закрытия окна по ESC стоит добавлять только тогда, когда окно появляется на странице.
+  document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       closePopup();
     }
   });
-}
+};
 
 // При нажатии на .setup-open открывается окно .setup (через удаление класса hidden у блока)
 setupOpen.addEventListener('click', openPopup);
 
 // Нажатие на Enter на .setup-open также открывает попап:
-setupOpen.addEventListener('keydown', function(evt) {
+setupOpen.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
-     openPopup();
+    openPopup();
   }
 });
 
 // При нажатии на .setup-close закрывается .setup (через добавление класса hidden блоку)
 setupClose.addEventListener('click', closePopup);
 
-// При нажатии на Enter на .setup-close окно тоже закрывается: 
-setupClose.addEventListener('keydown', function(evt) {
+// При нажатии на Enter на .setup-close окно тоже закрывается:
+setupClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     closePopup();
   }
@@ -152,7 +166,7 @@ var userNameInput = setup.querySelector('.setup-user-name');
 
 /* setCustomValidity — строка, содержащая ошибочное сообщение: https://developer.mozilla.org/ru/docs/Web/API/HTMLSelectElement/setCustomValidity
 Спека validity (ValidityState) и его свойства: https://developer.mozilla.org/en-US/docs/Web/API/ValidityState */
-userNameInput.addEventListener('invalid', function (evt) {
+userNameInput.addEventListener('invalid', function () {
   if (userNameInput.validity.tooShort) {
     userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
   } else if (userNameInput.validity.tooLong) {
@@ -175,51 +189,21 @@ userNameInput.addEventListener('input', function (evt) {
   }
 });
 
-var COAT_COLORS = [
-  'rgb(101, 137, 164)',
-  'rgb(241, 43, 107)',
-  'rgb(146, 100, 161)',
-  'rgb(56, 159, 117)',
-  'rgb(215, 210, 55)',
-  'rgb(0, 0, 0)'
-  ]
-
-var EYES_COLORS = [
-  'black',
-  'red',
-  'blue',
-  'yellow',
-  'green'
-];
-
-var FIREBALL_COLORS = [
-  '#ee4830',
-  '#30a8ee',
-  '#5ce6c0',
-  '#e848d5',
-  '#e6e848'
-];
-
-var wizardCoat = document.querySelector('.wizard-coat');
-var wizardEyes = document.querySelector('.wizard-eyes');
-var wizardFireball = document.querySelector('.setup-fireball-wrap');
-var wizardFireballColor = wizardFireball.querySelector('input[name="fireball-color"]');
-
-/* Для того, чтобы на сервер отправились правильные данные, при изменении параметров персонажа должно 
+/* Для того, чтобы на сервер отправились правильные данные, при изменении параметров персонажа должно
 изменяться и значение соответствующего скрытого инпута. */
-var changeCoatColor = function() {
+var changeCoatColor = function () {
   var newCoatColor = randomIndexReturn(COAT_COLORS);
   wizardCoat.style.fill = newCoatColor;
   document.querySelector('input[name="coat-color"]').value = newCoatColor;
 };
 
-var changeEyesColor = function() {
+var changeEyesColor = function () {
   var newEyesColor = randomIndexReturn(EYES_COLORS);
   wizardEyes.style.fill = newEyesColor;
   document.querySelector('input[name="eyes-color"]').value = newEyesColor;
 };
 
-var changeFireballColor = function() {
+var changeFireballColor = function () {
   var newFireBallColor = randomIndexReturn(FIREBALL_COLORS);
   wizardFireball.style.background = newFireBallColor;
   document.querySelector('input[name="fireball-color"]').value = newFireBallColor;
