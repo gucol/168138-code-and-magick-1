@@ -1,5 +1,7 @@
 'use strict';
 
+// #12 Учебный проект: нас орда
+
 // Показываем блок .setup
 document.querySelector('.setup').classList.remove('hidden');
 // Показывам блок .setup-similar
@@ -92,3 +94,50 @@ for (var j = 0; j < wizards.length; j++) {
 }
 
 similarListElement.appendChild(fragment);
+
+// #15 Учебный проект: одеть Надежду
+
+var setup = document.querySelector('.setup');
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = setup.querySelector('.setup-close');
+
+var OnSetupOpenClick = function() {
+  setup.classList.remove('hidden');
+}
+
+var OnSetupCloseClick = function() {
+  setup.classList.add('hidden');
+}
+
+// При нажатии на .setup-open открывается окно .setup (через удаление класса hidden у блока)
+setupOpen.addEventListener('click', OnSetupOpenClick);
+
+// При нажатии на .setup-close закрывается .setup (через добавление класса hidden блоку)
+setupClose.addEventListener('click', OnSetupCloseClick);
+
+
+
+
+/*
+Добавить обработчики для альтернативного ввода с клавиатуры keydown для кнопок открытия/закрытия диалога настройки персонажа:
+
+Когда иконка пользователя в фокусе .setup-open-icon, то окно настройки персонажа должно открываться по нажатию кнопки ENTER
+Не забудьте добавить tabindex="0" для иконки пользователя, чтобы она фокусировалась.
+*/
+
+/*
+Когда окно настройки персонажа открыто, нажатие на клавишу ESC должно закрывать диалог
+Если фокус находится на форме ввода имени, то окно закрываться не должно.
+*/
+
+/*
+Если окно открыто и фокус находится на кнопке закрытия окна, то нажатие клавиши ENTER должно приводить к закрытию диалога
+*/
+
+/*
+Если диалог открыт, нажатие на кнопку «Сохранить» приводит к отправке формы
+*/
+
+/*
+Если диалог открыт и фокус находится на кнопке «Сохранить», нажатие на ENTER приводит к отправке формы
+*/
