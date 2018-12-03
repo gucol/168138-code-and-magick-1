@@ -175,8 +175,6 @@ userNameInput.addEventListener('input', function (evt) {
   }
 });
 
-// 3. Изменение цвета мантии персонажа по нажатию.
-//Клик по .wizard-coat меняет цвет .wizard-coat (через изменение инлайнового свойства fill)
 var COAT_COLORS = [
   'rgb(101, 137, 164)',
   'rgb(241, 43, 107)',
@@ -186,36 +184,33 @@ var COAT_COLORS = [
   'rgb(0, 0, 0)'
   ]
 
+var EYES_COLORS = [
+  'black',
+  'red',
+  'blue',
+  'yellow',
+  'green'
+];
+
 var wizardCoat = document.querySelector('.wizard-coat');
+var wizardEyes = document.querySelector('.wizard-eyes');
 
 var changeCoatColor = function() {
   wizardCoat.style.fill = randomIndexReturn(COAT_COLORS);  
 };
 
+var changeEyesColor = function() {
+  wizardEyes.style.fill = randomIndexReturn(EYES_COLORS);
+}
+
+// 3. Изменение цвета мантии персонажа по нажатию.
 wizardCoat.addEventListener('click', changeCoatColor);
-
 // 4. Изменение цвета глаз персонажа по нажатию.
-/*
-Цвет глаз волшебника меняется по нажатию на блок .setup-wizard .wizard-eyes. Возможные варианты цвета глаз персонажа:
-black
-red
-blue
-yellow
-green
-*/
-
+wizardEyes.addEventListener('click', changeEyesColor);
 // 5. Изменение цвета фаерболов по нажатию.
 /*
 Цвет задаётся через изменение фона у блока .setup-fireball-wrap. Возможные варианты цвета:
 
-#ee4830
-#30a8ee
-#5ce6c0
-#e848d5
-#e6e848
+
 Для того, чтобы на сервер отправились правильные данные, при изменении параметров персонажа должно 
 изменяться и значение соответствующего скрытого инпута.*/
-
-// in html:
-// 2. Валидация ввода имени персонажа
-// 6. Форма должна отправляться на урл https://js.dump.academy/code-and-magick методом POST с типом multipart/form-data
