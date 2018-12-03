@@ -96,27 +96,84 @@ for (var j = 0; j < wizards.length; j++) {
 similarListElement.appendChild(fragment);
 
 // #15 Учебный проект: одеть Надежду
-
+// 1. Открытие/закрытие окна настройки персонажа
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = setup.querySelector('.setup-close');
 
-var OnSetupOpenClick = function() {
-  setup.classList.remove('hidden');
-}
+var onPopupEscPress = function(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
 
-var OnSetupCloseClick = function() {
+// Функция закрытия попапа:
+var closePopup = function() {
   setup.classList.add('hidden');
 }
 
+// Функция открытия попапа:
+var openPopup = function() {
+  setup.classList.remove('hidden');
+
+  /* Когда окно настройки персонажа открыто, нажатие на клавишу ESC должно закрывать диалог. 
+  Обработчик закрытия окна по ESC стоит добавлять только тогда, когда окно появляется на странице. */
+  document.addEventListener('keydown', function(evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      closePopup();
+    }
+  });
+}
+
 // При нажатии на .setup-open открывается окно .setup (через удаление класса hidden у блока)
-setupOpen.addEventListener('click', OnSetupOpenClick);
+setupOpen.addEventListener('click', openPopup);
+
+// Нажатие на Enter на .setup-open также открывает попап:
+setupOpen.addEventListener('keydown', function(evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+     openPopup();
+  }
+});
 
 // При нажатии на .setup-close закрывается .setup (через добавление класса hidden блоку)
-setupClose.addEventListener('click', OnSetupCloseClick);
+setupClose.addEventListener('click', closePopup);
 
+// При нажатии на Enter на .setup-close окно тоже закрывается: 
+setupClose.addEventListener('keydown', function(evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+});
 
+// Расширяем встроенные возможности валидации форм:
+var userNameInput = setup.querySelector('.setup-user-name');
 
+/* setCustomValidity — строка, содержащая ошибочное сообщение: https://developer.mozilla.org/ru/docs/Web/API/HTMLSelectElement/setCustomValidity
+Спека validity (ValidityState) и его свойства: https://developer.mozilla.org/en-US/docs/Web/API/ValidityState */
+userNameInput.addEventListener('invalid', function (evt) {
+  if (userNameInput.validity.tooShort) {
+    userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+  } else if (userNameInput.validity.tooLong) {
+    userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
+  } else if (userNameInput.validity.valueMissing) {
+    userNameInput.setCustomValidity('Обязательное поле');
+  } else {
+    // Сброс, чтобы была возможность показать другие виды ошибок (?)
+    userNameInput.setCustomValidity('');
+  }
+});
+
+// Убираем сообщение об ошибке, как только имя перевалило по длине за два знака:
+userNameInput.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length < 2) {
+    target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+  } else {
+    target.setCustomValidity('');
+  }
+});
 
 /*
 Добавить обработчики для альтернативного ввода с клавиатуры keydown для кнопок открытия/закрытия диалога настройки персонажа:
@@ -141,3 +198,42 @@ setupClose.addEventListener('click', OnSetupCloseClick);
 /*
 Если диалог открыт и фокус находится на кнопке «Сохранить», нажатие на ENTER приводит к отправке формы
 */
+
+
+// 3. Изменение цвета мантии персонажа по нажатию.
+/* Цвет мантии .setup-wizard .wizard-coat должен обновляться по нажатию на неё. Цвет мантии задаётся через 
+изменение инлайнового CSS-свойства fill для элемента. Цвет должен сменяться произвольным образом на один из 
+следующих цветов:
+rgb(101, 137, 164)
+rgb(241, 43, 107)
+rgb(146, 100, 161)
+rgb(56, 159, 117)
+rgb(215, 210, 55)
+rgb(0, 0, 0)
+*/
+
+// 4. Изменение цвета глаз персонажа по нажатию.
+/*
+Цвет глаз волшебника меняется по нажатию на блок .setup-wizard .wizard-eyes. Возможные варианты цвета глаз персонажа:
+black
+red
+blue
+yellow
+green
+*/
+
+// 5. Изменение цвета фаерболов по нажатию.
+/*
+Цвет задаётся через изменение фона у блока .setup-fireball-wrap. Возможные варианты цвета:
+
+#ee4830
+#30a8ee
+#5ce6c0
+#e848d5
+#e6e848
+Для того, чтобы на сервер отправились правильные данные, при изменении параметров персонажа должно 
+изменяться и значение соответствующего скрытого инпута.*/
+
+// in html:
+// 2. Валидация ввода имени персонажа
+// 6. Форма должна отправляться на урл https://js.dump.academy/code-and-magick методом POST с типом multipart/form-data
