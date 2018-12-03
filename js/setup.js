@@ -192,25 +192,42 @@ var EYES_COLORS = [
   'green'
 ];
 
+var FIREBALL_COLORS = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
+
 var wizardCoat = document.querySelector('.wizard-coat');
 var wizardEyes = document.querySelector('.wizard-eyes');
+var wizardFireball = document.querySelector('.setup-fireball-wrap');
+var wizardFireballColor = wizardFireball.querySelector('input[name="fireball-color"]');
 
+/* Для того, чтобы на сервер отправились правильные данные, при изменении параметров персонажа должно 
+изменяться и значение соответствующего скрытого инпута. */
 var changeCoatColor = function() {
-  wizardCoat.style.fill = randomIndexReturn(COAT_COLORS);  
+  var newCoatColor = randomIndexReturn(COAT_COLORS);
+  wizardCoat.style.fill = newCoatColor;
+  document.querySelector('input[name="coat-color"]').value = newCoatColor;
 };
 
 var changeEyesColor = function() {
-  wizardEyes.style.fill = randomIndexReturn(EYES_COLORS);
-}
+  var newEyesColor = randomIndexReturn(EYES_COLORS);
+  wizardEyes.style.fill = newEyesColor;
+  document.querySelector('input[name="eyes-color"]').value = newEyesColor;
+};
+
+var changeFireballColor = function() {
+  var newFireBallColor = randomIndexReturn(FIREBALL_COLORS);
+  wizardFireball.style.background = newFireBallColor;
+  document.querySelector('input[name="fireball-color"]').value = newFireBallColor;
+};
 
 // 3. Изменение цвета мантии персонажа по нажатию.
 wizardCoat.addEventListener('click', changeCoatColor);
 // 4. Изменение цвета глаз персонажа по нажатию.
 wizardEyes.addEventListener('click', changeEyesColor);
 // 5. Изменение цвета фаерболов по нажатию.
-/*
-Цвет задаётся через изменение фона у блока .setup-fireball-wrap. Возможные варианты цвета:
-
-
-Для того, чтобы на сервер отправились правильные данные, при изменении параметров персонажа должно 
-изменяться и значение соответствующего скрытого инпута.*/
+wizardFireball.addEventListener('click', changeFireballColor);
