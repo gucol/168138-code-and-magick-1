@@ -125,8 +125,11 @@ var onPopupEscPress = function (evt) {
 
 // Функция закрытия попапа:
 var closePopup = function () {
+
   setup.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
+  setup.style.top = 80 + 'px';
+  setup.style.left = 50 + '%';
 };
 
 // Функция открытия попапа:
