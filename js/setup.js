@@ -62,11 +62,7 @@ var SURNAMES = [
   'Ирвинг'
 ];
 
-// #12 Учебный проект: нас орда
-
-// Показываем блок .setup
 setup.classList.remove('hidden');
-// Показывам блок .setup-similar
 document.querySelector('.setup-similar').classList.remove('hidden');
 
 // Функция, возвращающая случайный элемент массива:
@@ -154,7 +150,7 @@ setupOpen.addEventListener('keydown', function (evt) {
   }
 });
 
-// При нажатии на .setup-close закрывается .setup (через добавление класса hidden блоку)
+// При нажатии на .setup-close закрывается .setup (через добавление класса hidden блоку):
 setupClose.addEventListener('click', closePopup);
 
 // При нажатии на Enter на .setup-close окно тоже закрывается:
@@ -218,3 +214,46 @@ wizardCoat.addEventListener('click', changeCoatColor);
 wizardEyes.addEventListener('click', changeEyesColor);
 // 5. Изменение цвета фаерболов по нажатию.
 wizardFireball.addEventListener('click', changeFireballColor);
+
+// Добавляю возможность перетаскивать звёзды из магазина в настройки персонажа:
+// Находим магазин — место, где лежит звезда
+var shopElement = document.querySelector('.setup-artifacts-shop');
+var draggedItem = null;
+
+/* dragstart начинается, когда мы начинаем перетаскивать выбранный элемент, например, звезду:
+https://developer.mozilla.org/en-US/docs/Web/Events/dragstart
+evt.target — ссылка на объект, отправивший событие. Т.е. если событие возникло на <img class = ".setup-artifacts-shop">,
+то картинка звезды перетаскивается.
+Метод DataTransfer.setData(): https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setData
+Далее — описание реакции на события перетаскивания: 
+*/
+
+shopElement.addEventListener('dragstart', function (evt) {
+  if (evt.target.tagName.toLowerCase() === 'img') {
+    draggedItem = evt.target;
+    evt.dataTransfer.setData('text/plain', evt.target.alt);
+  }
+});
+
+var artifactsElement = document.querySelector('.setup-artifacts');
+
+artifactsElement.addEventListener('dragover', function (evt) {
+  evt.preventDefault();
+  return false;
+});
+
+artifactsElement.addEventListener('drop', function (evt) {
+  evt.target.style.backgroundColor = '';
+  evt.target.appendChild(draggedItem);
+});
+
+
+artifactsElement.addEventListener('dragenter', function (evt) {
+  evt.target.style.backgroundColor = 'yellow';
+  evt.preventDefault();
+});
+
+artifactsElement.addEventListener('dragleave', function (evt) {
+  evt.target.style.backgroundColor = '';
+  evt.preventDefault();
+});
