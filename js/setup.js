@@ -1,4 +1,5 @@
 'use strict';
+
 // ИЗМЕНЕНИЕ НАСТРОЕК ПЕРСОНАЖА ПО КЛИКУ:
 (function () {
   var wizardCoat = document.querySelector('.wizard-coat');

@@ -1,5 +1,6 @@
 'use strict';
 
+// ПЕРЕТАСКИВАНИЕ ПОПАПА:
 (function () {
   var setup = document.querySelector('.setup');
   var dialogHandler = setup.querySelector('.upload');

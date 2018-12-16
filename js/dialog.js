@@ -1,7 +1,6 @@
 'use strict';
 
-// Модуль для работы с диалогом
-
+// Модуль для работы с диалогом:
 (function () {
   var setup = document.querySelector('.setup');
   var setupOpen = document.querySelector('.setup-open');

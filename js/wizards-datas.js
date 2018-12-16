@@ -1,5 +1,6 @@
 'use strict';
 
+// СОЗДАЮ ВОЛШЕБНИКОВ:
 (function () {
   var setup = document.querySelector('.setup');
 
@@ -48,8 +49,6 @@
 
   setup.classList.remove('hidden');
   document.querySelector('.setup-similar').classList.remove('hidden');
-
-  // СОЗДАЮ ВОЛШЕБНИКОВ:
 
   // Функция, собирающая случайный комплект свойств из объявленных выше массивов:
   var madeWizard = function () {
