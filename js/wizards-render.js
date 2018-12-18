@@ -3,7 +3,6 @@
 // РЕНДЕРЮ ВОЛШЕБНИКОВ:
 (function () {
   var NUMBER_OF_WIZARDS = 4;
-
   var similarListElement = document.querySelector('.setup-similar-list');
   var setup = document.querySelector('.setup');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');

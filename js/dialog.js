@@ -45,7 +45,7 @@
     window.backend.save(new FormData(form), onSuccessSubmit, window.backend.onError);
     evt.preventDefault();
   });
-
+  
   // При нажатии на .setup-open открывается окно .setup (через удаление класса hidden у блока):
   setupOpen.addEventListener('click', openPopup);
 
