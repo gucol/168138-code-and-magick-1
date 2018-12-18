@@ -2,25 +2,30 @@
 
 // РЕНДЕРЮ ВОЛШЕБНИКОВ:
 (function () {
-  // Место, в которое добавляем похожих персонажей:
-  var similarListElement = document.querySelector('.setup-similar-list');
+  var NUMBER_OF_WIZARDS = 4;
 
-  // Находим шаблон #similar-wizard-template
+  var similarListElement = document.querySelector('.setup-similar-list');
+  var setup = document.querySelector('.setup');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
   // Отрисовываем сгенерированные DOM-элементы в блок .setup-similar-list. Вставляем элементы, используя DocumentFragment:
   var renderWizard = function (wizard) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
     wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
     wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
     return wizardElement;
   };
 
-  var fragment = document.createDocumentFragment();
-  for (var j = 0; j < window.wizardsDatas.length; j++) {
-    fragment.appendChild(renderWizard(window.wizardsDatas[j]));
-  }
+  // Забираем данные с сервера и генерируем похожих волшебников:
+  window.backend.load(function (wizards) {
+    var fragment = document.createDocumentFragment();
+    for (var j = 0; j < NUMBER_OF_WIZARDS; j++) {
+      fragment.appendChild(renderWizard(wizards[j]));
+    }
 
-  similarListElement.appendChild(fragment);
+    similarListElement.appendChild(fragment);
+
+    setup.querySelector('.setup-similar').classList.remove('hidden');
+  });
 })();
